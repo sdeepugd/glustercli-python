@@ -12,7 +12,7 @@
 import subprocess
 from contextlib import contextmanager
 
-SUDO=None
+SUDO="sudo"
 GLUSTERCMD = "gluster"
 GLUSTERD_SOCKET = None
 ssh = None
