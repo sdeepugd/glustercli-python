@@ -12,6 +12,7 @@
 import subprocess
 from contextlib import contextmanager
 
+SUDO=None
 GLUSTERCMD = "gluster"
 GLUSTERD_SOCKET = None
 ssh = None
@@ -32,9 +33,13 @@ def ssh_connection(hostname, pem_file):
 
 
 def execute(cmd):
-    global prev_ssh_host, prev_ssh_pem_file
+    global prev_ssh_host, prev_ssh_pem_file, SUDO
 
     c = []
+
+    if SUDO:
+        c.append(SUDO)
+
     c.append(GLUSTERCMD)
 
     if GLUSTERD_SOCKET:
@@ -109,6 +114,9 @@ def execute_or_raise(cmd):
 
     return out.strip()
 
+def set_sudo_perm():
+    global SUDO
+    SUDO="sudo"
 
 def gluster_system_execute(cmd):
     cmd.insert(0, "system::")

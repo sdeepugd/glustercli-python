@@ -376,7 +376,17 @@ def parse_bitrot_scrub_status(data):
 
 
 def parse_rebalance_status(data):
-    raise NotImplementedError("Rebalance Status")
+    xml = etree.fromstring(data)
+    nodes=[]
+    for el in xml.find('volRebalance').findall('node'):
+        nodes.append({
+            "name": el.find('nodeName').text,
+            "files": el.find('files').text,
+            "size": el.find('size').text,
+            "status": el.find('statusStr').text,
+            "runtime": el.find('runtime').text
+        })
+    return nodes   
 
 
 def parse_quota_list_paths(data):
